@@ -17,13 +17,15 @@ public class Question
 
 public class ServerManager : MonoBehaviour
 {
+    List<int> questionId = new List<int>();
+    private static int lastRandomNumber;
     private string current_json;
     private Question current_question;
 
     // Start is called before the first frame update
     void Start()
     {
-        GetQuestion(4);
+        GetQuestion(1);
         InsertPlayer("ioeriewnf");
         UpdateScore("liron", 20);
     }
@@ -93,7 +95,6 @@ public class ServerManager : MonoBehaviour
                     Debug.Log("Error");
                 }
             }
-
         }
     }
 
@@ -119,6 +120,5 @@ public class ServerManager : MonoBehaviour
 
         }
     }
-
 }
 
