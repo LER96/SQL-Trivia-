@@ -4,29 +4,40 @@ using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
 
+
 [System.Serializable]
+public class Question
+{
+    public string question_text;
+    public int id;
+    public string ans1_text;
+    public string ans2_text;
+    public string ans3_text;
+    public string ans4_text;
+    public int correct_ans_id;
+}
+
 public class ServerManager : MonoBehaviour
 {
-    public string current_json;
+    private string current_json;
     private Question current_question;
-    [SerializeField] GameObject questionOBJ;
 
-    public TMP_Text questionText;
+    [SerializeField] TMP_Text questionText;
+    [SerializeField] TMP_Text answer1;
+    [SerializeField] TMP_Text answer2;
+    [SerializeField] TMP_Text answer3;
+    [SerializeField] TMP_Text answer4;
+    [SerializeField] TMP_Text correctAnswer;
 
     // Start is called before the first frame update
     void Start()
     {
-        current_question = questionOBJ.GetComponent<Question>();
-        UI();
+
         FirstQuestion();
         //InsertPlayer("ioeriewnf");
         //UpdateScore("liron", 20);
     }
 
-    public void UI()
-    {
-        questionText.text = "First question: " + current_question.question_text;
-    }
 
     public void FirstQuestion()
     {
@@ -64,8 +75,17 @@ public class ServerManager : MonoBehaviour
             if (webRequest.responseCode == 200)
             {
                 Debug.Log("Received: " + webRequest.downloadHandler.text);
-                questionText.text = webRequest.downloadHandler.text;
                 current_json = webRequest.downloadHandler.text;
+                string[] split = current_json.Split(':' , ',');
+                for (int i = 0; i < split.Length; i++)
+                {
+                    Debug.Log(split[i]);
+                }
+                questionText.text = split[1];
+                answer1.text = split[5];
+                answer2.text = split[7];
+                answer3.text = split[9];
+                answer4.text = split[11];
 
                 if (current_json != null && current_json.Length > 0)
                 {
