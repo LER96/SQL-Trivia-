@@ -2,34 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using TMPro;
 
 [System.Serializable]
-public class Question
-{
-    public string question_text;
-    public int id;
-    public string ans1_text;
-    public string ans2_text;
-    public string ans3_text;
-    public string ans4_text;
-    public int correct_ans_id;
-}
-
 public class ServerManager : MonoBehaviour
 {
-    List<int> questionId = new List<int>();
-    private static int lastRandomNumber;
-    private string current_json;
+    public string current_json;
     private Question current_question;
+    [SerializeField] GameObject questionOBJ;
+
+    public TMP_Text questionText;
 
     // Start is called before the first frame update
     void Start()
     {
-        GetQuestion(1);
-        InsertPlayer("ioeriewnf");
-        UpdateScore("liron", 20);
+        current_question = questionOBJ.GetComponent<Question>();
+        UI();
+        FirstQuestion();
+        //InsertPlayer("ioeriewnf");
+        //UpdateScore("liron", 20);
     }
 
+    public void UI()
+    {
+        questionText.text = "First question: " + current_question.question_text;
+    }
+
+    public void FirstQuestion()
+    {
+        GetQuestion(1);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -62,6 +64,7 @@ public class ServerManager : MonoBehaviour
             if (webRequest.responseCode == 200)
             {
                 Debug.Log("Received: " + webRequest.downloadHandler.text);
+                questionText.text = webRequest.downloadHandler.text;
                 current_json = webRequest.downloadHandler.text;
 
                 if (current_json != null && current_json.Length > 0)
