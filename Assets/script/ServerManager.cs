@@ -60,7 +60,7 @@ public class ServerManager : MonoBehaviour
         {
             Debug.Log("kill him");
         }
-        index++;
+        GetQuestion(index++);
     }
 
     public void Create()
