@@ -28,16 +28,17 @@ public class ServerManager : MonoBehaviour
     [SerializeField] TMP_Text answer2;
     [SerializeField] TMP_Text answer3;
     [SerializeField] TMP_Text answer4;
-    [SerializeField] TMP_Text correctAnswer;
     [SerializeField] Button startGameButton;
 
     [SerializeField] InputField userName;
-    [SerializeField] int index=1;
+    [SerializeField] int index;
     [SerializeField] float timer;
+    public TMP_Text correctAnswer;
 
     // Start is called before the first frame update
     void Start()
     {
+        index = 1;
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             FirstQuestion();
@@ -106,7 +107,7 @@ public class ServerManager : MonoBehaviour
                 string[] split = current_json.Split(':' , ',');
                 for (int i = 0; i < split.Length; i++)
                 {
-                    Debug.Log(split[i]);
+                   // Debug.Log(split[i]);
                 }
                 questionText.text = split[1];
                 answer1.text = split[5];
