@@ -45,7 +45,7 @@ public class ServerManager : MonoBehaviour
 
     public void FirstQuestion()
     {
-        GetQuestion(index);
+        GetQuestion(1);
     }
     
     public void GetAnswer(int ans)
