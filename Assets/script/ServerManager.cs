@@ -32,7 +32,8 @@ public class ServerManager : MonoBehaviour
     [SerializeField] Button startGameButton;
 
     [SerializeField] InputField userName;
-    [SerializeField] int index; 
+    [SerializeField] int index=1;
+    [SerializeField] float timer;
 
     // Start is called before the first frame update
     void Start()
@@ -45,12 +46,21 @@ public class ServerManager : MonoBehaviour
 
     public void FirstQuestion()
     {
-        GetQuestion(1);
+        GetQuestion(index);
     }
     
-    public void GetAnswer(int ans)
+    public void GetAnswer(int answer)
     {
-
+        int a = int.Parse(correctAnswer.text);
+        if(a== answer)
+        {
+            Debug.Log("goooodd gooodd");
+        }
+        else
+        {
+            Debug.Log("kill him");
+        }
+        index++;
     }
 
     public void Create()
