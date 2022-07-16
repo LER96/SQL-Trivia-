@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Question
@@ -28,25 +29,39 @@ public class ServerManager : MonoBehaviour
     [SerializeField] TMP_Text answer3;
     [SerializeField] TMP_Text answer4;
     [SerializeField] TMP_Text correctAnswer;
+    [SerializeField] Button startGameButton;
+
+    [SerializeField] InputField userName;
 
     // Start is called before the first frame update
     void Start()
     {
-
-        FirstQuestion();
-        //InsertPlayer("ioeriewnf");
-        //UpdateScore("liron", 20);
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            FirstQuestion();
+        }
     }
-
 
     public void FirstQuestion()
     {
-        GetQuestion(1);
+        GetQuestion(2);
     }
     // Update is called once per frame
     void Update()
     {
+    }
 
+    public void Create()
+    {
+        string name = userName.text;
+        InsertPlayer(name);
+        Debug.Log(userName.text);
+        startGameButton.gameObject.SetActive(true);
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void GetQuestion(int QID)
