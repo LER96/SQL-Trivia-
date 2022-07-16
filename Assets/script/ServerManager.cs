@@ -32,6 +32,7 @@ public class ServerManager : MonoBehaviour
     [SerializeField] Button startGameButton;
 
     [SerializeField] InputField userName;
+    [SerializeField] int index; 
 
     // Start is called before the first frame update
     void Start()
@@ -44,11 +45,12 @@ public class ServerManager : MonoBehaviour
 
     public void FirstQuestion()
     {
-        GetQuestion(2);
+        GetQuestion(index);
     }
-    // Update is called once per frame
-    void Update()
+    
+    public void GetAnswer(int ans)
     {
+
     }
 
     public void Create()
@@ -101,6 +103,7 @@ public class ServerManager : MonoBehaviour
                 answer2.text = split[7];
                 answer3.text = split[9];
                 answer4.text = split[11];
+                correctAnswer.text = split[13];
 
                 if (current_json != null && current_json.Length > 0)
                 {
