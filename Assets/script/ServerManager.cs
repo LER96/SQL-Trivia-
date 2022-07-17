@@ -20,6 +20,8 @@ public class Question
 
 public class ServerManager : MonoBehaviour
 {
+    public TMP_Text correctAnswer;
+    [SerializeField] InputField userName;
     private string current_json;
     private Question current_question;
 
@@ -30,38 +32,83 @@ public class ServerManager : MonoBehaviour
     [SerializeField] TMP_Text answer4;
     [SerializeField] Button startGameButton;
 
-    [SerializeField] InputField userName;
+    [SerializeField] GameObject questionCanvas;
+    [SerializeField] GameObject endCanvas;
+    [SerializeField] TMP_Text endGame;
+
+    [SerializeField] int score;
+    [SerializeField] int scoreOfQuest=2;
     [SerializeField] int index;
-    [SerializeField] float timer;
-    public TMP_Text correctAnswer;
+    [SerializeField] float timer=10;
+    [SerializeField] bool ispresent;
+    float copytime;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        endCanvas.SetActive(false);
+        questionCanvas.SetActive(true);
+
+        copytime = timer;
         index = 1;
+
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            FirstQuestion();
+            NextQuest();
         }
     }
 
-    public void FirstQuestion()
+    private void Update()
     {
-        GetQuestion(index);
+        if(ispresent)
+        {
+            Stopper();
+        }
     }
-    
+
+    //the timer of each question
+    void Stopper()
+    {
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+        else
+        {
+            NextQuest();
+        }
+    }
+
+    //give next question from the chart
+    void NextQuest()
+    {
+        if (index< 7)
+        {
+            timer = copytime;
+            ispresent = true;
+            GetQuestion(index++);
+        }
+        else
+        {
+            EndTrivia();
+        }
+    }
+
+    //check if the answer is correct
     public void GetAnswer(int answer)
     {
         int a = int.Parse(correctAnswer.text);
         if(a== answer)
         {
             Debug.Log("goooodd gooodd");
+            score += (scoreOfQuest * (int)timer);
         }
         else
         {
             Debug.Log("kill him");
         }
-        GetQuestion(index++);
+        NextQuest();
     }
 
     public void Create()
@@ -75,6 +122,19 @@ public class ServerManager : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void EndTrivia()
+    {
+        endCanvas.SetActive(true);
+        questionCanvas.SetActive(false);
+        //UpdateScore(userName.text, score);
+        endGame.text = "" + userName.text + "Got " + score;
+    }
+
+    public void EndGame()
+    {
+        Application.Quit();
     }
 
     public void GetQuestion(int QID)
