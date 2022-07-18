@@ -2751,7 +2751,8 @@ MonoBehaviour:
   score: 0
   scoreOfQuest: 2
   index: 1
-  timer: 10
+  timer: 0.1
+  maxTime: 10
   ispresent: 0
 --- !u!4 &1775980301
 Transform:

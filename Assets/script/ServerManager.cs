@@ -42,19 +42,14 @@ public class ServerManager : MonoBehaviour
     [SerializeField] int score;
     [SerializeField] int scoreOfQuest;
     [SerializeField] int index;
-    [SerializeField] float timer=10;
+    [SerializeField] float timer=0;
+    [SerializeField] float maxTime;
     [SerializeField] bool ispresent;
-    float copytime;
+    //float copytime;
     
     void Start()
     {
-        copytime = timer;
         index = 1;
-
-        if (SceneManager.GetActiveScene().buildIndex != 0)
-        {
-            NextQuest();
-        }
     }
 
     private void Update()
@@ -68,9 +63,9 @@ public class ServerManager : MonoBehaviour
     //the timer of each question
     void Stopper()
     {
-        if (timer > 0)
+        if (timer < maxTime)
         {
-            timer -= Time.deltaTime;
+            timer += Time.deltaTime;
         }
         else
         {
@@ -81,11 +76,11 @@ public class ServerManager : MonoBehaviour
     //give next question from the chart
     void NextQuest()
     {
-        if (index< 7)
+        if (index< 8)
         {
-            timer = copytime;
+            timer = 0.1f;
             ispresent = true;
-            GetQuestion(index++);
+            GetQuestion(index);
         }
         else
         {
@@ -100,13 +95,14 @@ public class ServerManager : MonoBehaviour
         scoreOfQuest = int.Parse(sqlScoreText.text);
         if(a== answer)
         {
-            score += (scoreOfQuest * (int)timer);
+            score += (int)(scoreOfQuest / (int)timer);
             scoreGained.text = "score: " + score;
         }
         else
         {
             Debug.Log("kill him");
         }
+        index++;
         NextQuest();
     }
 
@@ -121,13 +117,14 @@ public class ServerManager : MonoBehaviour
     {
         startCanvas.SetActive(false);
         questionCanvas.SetActive(true);
+        NextQuest();
     }
 
     public void EndTrivia()
     {
         endCanvas.SetActive(true);
         questionCanvas.SetActive(false);
-        //UpdateScore(userName.text, score);
+        UpdateScore(userName.text, score);
         endGame.text = "" + userName.text + " Got " + score;
     }
 
