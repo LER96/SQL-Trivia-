@@ -36,6 +36,7 @@ public class ServerManager : MonoBehaviour
 
     [SerializeField] GameObject questionCanvas;
     [SerializeField] GameObject endCanvas;
+    [SerializeField] GameObject startCanvas;
     [SerializeField] TMP_Text endGame;
 
     [SerializeField] int score;
@@ -47,9 +48,6 @@ public class ServerManager : MonoBehaviour
     
     void Start()
     {
-        endCanvas.SetActive(false);
-        questionCanvas.SetActive(true);
-
         copytime = timer;
         index = 1;
 
@@ -61,7 +59,6 @@ public class ServerManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(scoreOfQuest);
         if (ispresent)
         {
             Stopper();
@@ -103,10 +100,8 @@ public class ServerManager : MonoBehaviour
         scoreOfQuest = int.Parse(sqlScoreText.text);
         if(a== answer)
         {
-            Debug.Log("goooodd gooodd");
             score += (scoreOfQuest * (int)timer);
             scoreGained.text = "score: " + score;
-            Debug.Log(score);
         }
         else
         {
@@ -115,17 +110,17 @@ public class ServerManager : MonoBehaviour
         NextQuest();
     }
 
-    public void Create()
+    public void CreateUsername()
     {
         string name = userName.text;
         InsertPlayer(name);
-        Debug.Log(userName.text);
         startGameButton.gameObject.SetActive(true);
     }
 
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        startCanvas.SetActive(false);
+        questionCanvas.SetActive(true);
     }
 
     public void EndTrivia()
@@ -133,7 +128,7 @@ public class ServerManager : MonoBehaviour
         endCanvas.SetActive(true);
         questionCanvas.SetActive(false);
         //UpdateScore(userName.text, score);
-        endGame.text = "" + /*userName.text +*/ "Got " + score;
+        endGame.text = "" + userName.text + " Got " + score;
     }
 
     public void EndGame()
@@ -200,7 +195,6 @@ public class ServerManager : MonoBehaviour
             yield return webRequest.SendWebRequest();
             if (webRequest.responseCode == 200)
             {
-                Debug.Log("Received: " + webRequest.downloadHandler.text);
                 current_json = webRequest.downloadHandler.text;
                 if (current_json == "1")
                 {
