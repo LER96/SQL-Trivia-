@@ -21,6 +21,8 @@ public class Question
 public class ServerManager : MonoBehaviour
 {
     public TMP_Text correctAnswer;
+    public TMP_Text sqlScoreText;
+    public TMP_Text scoreGained;
     [SerializeField] InputField userName;
     private string current_json;
     private Question current_question;
@@ -37,14 +39,12 @@ public class ServerManager : MonoBehaviour
     [SerializeField] TMP_Text endGame;
 
     [SerializeField] int score;
-    [SerializeField] int scoreOfQuest=2;
+    [SerializeField] int scoreOfQuest;
     [SerializeField] int index;
     [SerializeField] float timer=10;
     [SerializeField] bool ispresent;
     float copytime;
     
-
-    // Start is called before the first frame update
     void Start()
     {
         endCanvas.SetActive(false);
@@ -61,7 +61,8 @@ public class ServerManager : MonoBehaviour
 
     private void Update()
     {
-        if(ispresent)
+        Debug.Log(scoreOfQuest);
+        if (ispresent)
         {
             Stopper();
         }
@@ -99,10 +100,13 @@ public class ServerManager : MonoBehaviour
     public void GetAnswer(int answer)
     {
         int a = int.Parse(correctAnswer.text);
+        scoreOfQuest = int.Parse(sqlScoreText.text);
         if(a== answer)
         {
             Debug.Log("goooodd gooodd");
             score += (scoreOfQuest * (int)timer);
+            scoreGained.text = "score: " + score;
+            Debug.Log(score);
         }
         else
         {
@@ -129,7 +133,7 @@ public class ServerManager : MonoBehaviour
         endCanvas.SetActive(true);
         questionCanvas.SetActive(false);
         //UpdateScore(userName.text, score);
-        endGame.text = "" + userName.text + "Got " + score;
+        endGame.text = "" + /*userName.text +*/ "Got " + score;
     }
 
     public void EndGame()
@@ -164,7 +168,7 @@ public class ServerManager : MonoBehaviour
             {
                 Debug.Log("Received: " + webRequest.downloadHandler.text);
                 current_json = webRequest.downloadHandler.text;
-                string[] split = current_json.Split(':' , ',');
+                string[] split = current_json.Split(':' , ',' , '}');
                 for (int i = 0; i < split.Length; i++)
                 {
                    // Debug.Log(split[i]);
@@ -175,7 +179,7 @@ public class ServerManager : MonoBehaviour
                 answer3.text = split[9];
                 answer4.text = split[11];
                 correctAnswer.text = split[13];
-
+                sqlScoreText.text = split[15];
                 if (current_json != null && current_json.Length > 0)
                 {
                     current_question = JsonUtility.FromJson<Question>(current_json);
