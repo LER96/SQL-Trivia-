@@ -23,7 +23,7 @@ public class ServerManager : MonoBehaviour
     public TMP_Text correctAnswer;
     public TMP_Text sqlScoreText;
     public TMP_Text timerText;
-    [SerializeField] TMP_Text scoreGained;
+    [SerializeField] TMP_Text answerUI;
     [SerializeField] InputField userName;
     private string current_json;
     private Question current_question;
@@ -45,12 +45,15 @@ public class ServerManager : MonoBehaviour
     [SerializeField] int index;
     [SerializeField] float timer=0;
     [SerializeField] float maxTime;
+    float copytime;
     [SerializeField] bool ispresent;
-    //float copytime;
+
+    [SerializeField] float delay;
     
     void Start()
     {
         index = 1;
+        copytime = maxTime;
     }
 
     private void Update()
@@ -59,7 +62,7 @@ public class ServerManager : MonoBehaviour
         {
             Stopper();
         }
-        timerText.text = "Timer: " + timer;
+        timerText.text = "Timer: " + (int)copytime;
 
     }
 
@@ -69,6 +72,7 @@ public class ServerManager : MonoBehaviour
         if (timer < maxTime)
         {
             timer += Time.deltaTime;
+            copytime -= Time.deltaTime;
         }
         else
         {
@@ -80,9 +84,11 @@ public class ServerManager : MonoBehaviour
     //give next question from the chart
     void NextQuest()
     {
+        answerUI.text = "";
         if (index< 8)
         {
             timer = 0.1f;
+            copytime = maxTime;
             ispresent = true;
             GetQuestion(index);
         }
@@ -100,13 +106,15 @@ public class ServerManager : MonoBehaviour
         if(a== answer)
         {
             score += (int)(scoreOfQuest / (int)timer);
+            answerUI.text = "Correct Sir!";
         }
         else
         {
             Debug.Log("kill him");
+            answerUI.text = "DA FAQ";
         }
         index++;
-        NextQuest();
+        Invoke(("NextQuest"), delay);
     }
 
     public void CreateUsername()
