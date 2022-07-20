@@ -22,7 +22,8 @@ public class ServerManager : MonoBehaviour
 {
     public TMP_Text correctAnswer;
     public TMP_Text sqlScoreText;
-    public TMP_Text scoreGained;
+    public TMP_Text timerText;
+    [SerializeField] TMP_Text scoreGained;
     [SerializeField] InputField userName;
     private string current_json;
     private Question current_question;
@@ -58,6 +59,8 @@ public class ServerManager : MonoBehaviour
         {
             Stopper();
         }
+        timerText.text = "Timer: " + timer;
+
     }
 
     //the timer of each question
@@ -69,6 +72,7 @@ public class ServerManager : MonoBehaviour
         }
         else
         {
+            index++;
             NextQuest();
         }
     }
@@ -96,7 +100,6 @@ public class ServerManager : MonoBehaviour
         if(a== answer)
         {
             score += (int)(scoreOfQuest / (int)timer);
-            scoreGained.text = "score: " + score;
         }
         else
         {
