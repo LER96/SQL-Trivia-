@@ -2530,7 +2530,7 @@ GameObject:
   - component: {fileID: 1434046972}
   - component: {fileID: 1434046973}
   m_Layer: 5
-  m_Name: MainScore
+  m_Name: Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2800,7 +2800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1586076198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2916,7 +2916,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correctAnswer: {fileID: 1397117447}
   sqlScoreText: {fileID: 187659944}
-  scoreGained: {fileID: 1434046973}
+  timerText: {fileID: 1434046973}
+  scoreGained: {fileID: 0}
   userName: {fileID: 1982175121}
   questionText: {fileID: 149857562}
   answer1: {fileID: 221715689}
@@ -3558,7 +3559,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2073955552
 MonoBehaviour:
   m_ObjectHideFlags: 0
